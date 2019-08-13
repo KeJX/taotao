@@ -1,0 +1,28 @@
+.kjx-hide {
+  display: none !important;
+}
+
+.transition {
+  -webkit-transition: all .5s !important;
+  transition: all .5s !important;
+}
+
+.kjx-fadeout {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.kjx-slideUpDownCollapse {
+  height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+}
+
+.kjx-slideLeftRight {
+  width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow: hidden;
+}
+/*# sourceMappingURL=showHide.css.map */

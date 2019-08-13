@@ -1,0 +1,156 @@
+@charset "UTF-8";
+/*css reset*/
+/*清除内外边距*/
+body, h1, h2, h3, h4, h5, h6, p, hr,
+ul, ol, li, dl, dt, dd,
+form, fieldset, legend, input, button, select, textarea,
+th, td,
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+/*重置默认样式*/
+body, button, input, select, textarea {
+  /*font: 12px/1 微软雅黑, Tahoma, Helvetica, Arial, 宋体, sans-serif;*/
+  color: #333;
+  font: 12px/1 "Microsoft YaHei", Tahoma, Helvetica, Arial, SimSun, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+em, i {
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+  vertical-align: top;
+}
+
+img {
+  border: none;
+  /*display: block;*/
+  vertical-align: top;
+}
+
+textarea {
+  overflow: auto;
+  resize: none;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+/*常用公共样式*/
+.fl {
+  float: left;
+  display: inline;
+}
+
+.fr {
+  float: right;
+  display: inline;
+}
+
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+.cf {
+  *zoom: 1;
+}
+
+.kjx-dropdown {
+  position: relative;
+}
+
+.kjx-dropdown .kjx-dropdown-toggle {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.kjx-dropdown .kjx-dropdown-toggle .kjx-dropdown-arrow {
+  vertical-align: center;
+  background-repeat: no-repeat;
+}
+
+.kjx-dropdown .kjx-dropdown-toggle:hover {
+  cursor: pointer;
+}
+
+.kjx-dropdown .kjx-dropdown-layer {
+  overflow: hidden;
+  position: absolute;
+  z-index: 1;
+}
+
+.kjx-dropdown .kjx-dropdown-layer.kjx-dropdown-left {
+  left: 0;
+  right: auto;
+}
+
+.kjx-dropdown .kjx-dropdown-layer.kjx-dropdown-right {
+  right: 0;
+  left: auto;
+}
+
+.kjx-dropdown[class*="-active"] .kjx-dropdown-arrow {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.menu {
+  display: inline-block;
+}
+
+.menu .kjx-dropdown-toggle {
+  padding: 0 16px 0 12px;
+  border-left: 1px solid #f3f5f7;
+  border-right: 1px solid #f3f5f7;
+}
+
+.menu .kjx-dropdown-toggle .kjx-dropdown-arrow {
+  display: inline-block;
+  width: 8px;
+  height: 6px;
+  margin-left: 8px;
+  line-height: 100%;
+}
+
+.menu .kjx-dropdown-layer {
+  top: 100%;
+  background-color: #fff;
+  border: 1px solid #cdd0d4;
+}
+
+.menu .kjx-dropdown-layer .menu-item {
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 12px;
+  color: #4d555d;
+  white-space: nowrap;
+}
+
+.menu .kjx-dropdown-layer .menu-item:hover {
+  background-color: #f3f5f7;
+}
+/*# sourceMappingURL=dropdown.css.map */

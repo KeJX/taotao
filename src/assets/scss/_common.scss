@@ -1,0 +1,24 @@
+a{
+    color: #4d555d;
+}
+
+a:hover{
+    color: #f01414;
+}
+/* 解决li横艾之间有空白间隙的问题 */
+ul{letter-spacing: -10px;}
+ul li{letter-spacing: normal;}
+
+
+/* 文字隐藏*/
+.text-hidden{
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+/*单行文字省略*/
+.text-ellipsis{
+    text-overflow: ellipsis;
+    white-space:  nowrap;
+    overflow: hidden;
+}

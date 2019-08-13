@@ -1,0 +1,97 @@
+@import "../../assets/scss/reset";
+// 下拉组件公共部分
+
+// .kjx-dropdown:hover .kjx-dropdown-layer{
+//     display: block;
+// }
+.kjx-dropdown{
+    position: relative;
+    .kjx-dropdown-toggle{
+        display: inline-block;
+        height:100%;
+        position: relative;
+        z-index:2;
+        .kjx-dropdown-arrow{
+            vertical-align: center;
+            background-repeat: no-repeat;
+        }
+       
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    .kjx-dropdown-layer{
+        // display: none;
+        overflow: hidden;
+        position: absolute;
+        z-index: 1;
+        
+        &.kjx-dropdown-left{
+            left:0;
+            right:auto;
+        }
+        &.kjx-dropdown-right{
+            right:0;
+            left: auto;
+        }
+
+        .kjx-dropdown-loading{
+            width:32px;
+            height:32px;
+            background: url("../../static/img/loading.gif") no-repeat;
+            background-size: contain;
+            margin:20px;
+           
+        }
+       
+    }
+
+    &[class*="-active"]{
+        .kjx-dropdown-arrow{
+            transform: rotate(180deg);
+        }
+    }
+
+
+}
+
+
+// 菜单式下拉组件
+
+.menu{
+    display: inline-block;
+}
+.menu{
+    .kjx-dropdown-toggle{
+        padding:0 16px 0 12px;
+        border-left: 1px solid #f3f5f7;
+        border-right: 1px solid #f3f5f7;
+        .kjx-dropdown-arrow{
+            display: inline-block;
+            width: 8px;
+            height:6px;
+            margin-left: 8px;
+            line-height: 100%;
+        }
+    }
+    .kjx-dropdown-layer{
+        top:100%;
+        background-color: #fff;
+        border:1px solid #cdd0d4;
+        .menu-item{
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 12px;
+            color:#4d555d;
+            white-space: nowrap;
+        }
+        .menu-item:hover{
+            background-color: #f3f5f7;
+        }
+    }
+}
+
+
+

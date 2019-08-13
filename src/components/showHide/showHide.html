@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./showHide.css">
+    <style>
+        body {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            width: 50%;
+            height: 30px;
+        }
+
+        .box {
+            width: 100%;
+            height: 400px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="btn btn-show">
+        显示
+    </button><button class="btn  btn-hide">
+        隐藏
+    </button>
+    <div class="box">
+
+    </div>
+</body>
+<script>
+    Element.prototype.trigger = function (eventName, useCapture = true, isPreventDefault = true) {
+        var event = document.createEvent('HTMLEvents')
+        event.initEvent(eventName, useCapture, isPreventDefault)
+        event.name = eventName
+        // 派发事件
+        this.dispatchEvent(event)
+    }
+
+    Element.prototype.isHidden = function () {
+        return (this.offsetParent === null);
+    }
+
+    
+
+    var animate = {
+        init: function (el) {
+            if (el.isHidden()) {
+                el.data.set('status', 'hidden')
+            } else {
+                el.data.set('status', 'shown')
+            }
+        },
+        slient: {
+            show: function (el) {
+                if (el.data.get('status') == 'show') return
+                if (el.data.get('status') == 'shown') return
+
+                // typeof showCallback  === 'function' &&showCallback()
+                // 发布订阅模式
+                el.data.set('status', 'show')
+                el.trigger("show")
+                el.classList.remove("kjx-hide")
+                // typeof shownCallback === 'function' && shownCallback()
+                el.data.set('status', 'shown')
+                el.trigger("shown")
+            },
+            hide: function (el) {
+
+                if (el.data.get('status') == 'hide') return
+                if (el.data.get('status') == 'hidden') return
+                el.data.set('status', 'hide')
+                el.trigger("hide")
+                el.classList.add("kjx-hide")
+                el.data.set('status', 'hidden')
+                el.trigger("hidden")
+            }
+        },
+        fade:{
+            show:function(el){
+
+            },
+            hide:function(el){
+
+            }
+        }
+    }
+    var ShowHide = function (el) {
+        this.el = el
+        this.el.data = new Map()
+    }
+    el = document.querySelector(".box")
+    showBtn = document.querySelector(".btn-show")
+    hideBtn = document.querySelector(".btn-hide")
+    showBtn.addEventListener("click", () => {
+        animate.show(el)
+    })
+
+</script>
+
+</html>
