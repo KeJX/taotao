@@ -218,7 +218,9 @@ function createCategoryDetails(layerEl,data){
 // focus -slider
 var focusSlider = new Slider({
   el:document.querySelector("#carousel-slider"),
-  interval:2000
+  interval:0,
+  animateMode:"slide",
+  activeIndex:0
 })
 
 focusSlider.el.on("kjx-slider-show",function(e){
