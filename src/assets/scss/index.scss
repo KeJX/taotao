@@ -342,7 +342,6 @@
 .focus {
     width: 100%;
     height: 504px;
-    background-color: #eee;
     margin-bottom: 8px;
 
     .category {
@@ -452,7 +451,62 @@
     }
 
 
+    .focus-sidebar{
+        width:249px;
+        .focus-news{
+            padding:7px 20px 12px;
+            background-color: #fff;
+            border: 1px solid #d9dde1;
+            border-bottom: none;
 
+            .focus-news-head{
+                height:38px;
+                line-height: 38px;
+                .focus-news-title{
+                    color:#f01414;
+                    font-size: 16px;
+                }
+            }
+            .focus-news-body{
+                line-height: 28px;
+            }
+        }
 
-    
+        .focus-service{
+            background-color: #fff;
+            border-left: 1px solid #d9dde1;
+            .focus-service-item{
+                width:61px;
+                height:71px;
+                border-top: 1px solid #d9dde1;
+                border-right: 1px solid #d9dde1;
+                .focus-service-icon,
+                .focus-service-text{
+                    display: inline-block;
+                    width:100%;
+                    text-align: center;
+
+                }
+
+                .focus-service-icon{
+                    margin-top: 17px;
+                    color:#f67272;
+                    font-size: 22px;
+                }
+
+                .focus-service-text{
+                    margin-top: 6px;
+                    color:#4d555d;
+                }
+            }
+        }
+
+        .focus-ad{
+            width:100%;
+            height:90px;
+            background-image: url("../../static/img/focus-ad.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    }
 }

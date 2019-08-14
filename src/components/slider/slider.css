@@ -1,0 +1,170 @@
+@charset "UTF-8";
+/*css reset*/
+/*清除内外边距*/
+body, h1, h2, h3, h4, h5, h6, p, hr,
+ul, ol, li, dl, dt, dd,
+form, fieldset, legend, input, button, select, textarea,
+th, td,
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+/*重置默认样式*/
+body, button, input, select, textarea {
+  /*font: 12px/1 微软雅黑, Tahoma, Helvetica, Arial, 宋体, sans-serif;*/
+  color: #333;
+  font: 12px/1 "Microsoft YaHei", Tahoma, Helvetica, Arial, SimSun, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+em, i {
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+  vertical-align: top;
+}
+
+img {
+  border: none;
+  /*display: block;*/
+  vertical-align: top;
+}
+
+textarea {
+  overflow: auto;
+  resize: none;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+/*常用公共样式*/
+.fl {
+  float: left;
+  display: inline;
+}
+
+.fr {
+  float: right;
+  display: inline;
+}
+
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+.cf {
+  *zoom: 1;
+}
+
+a {
+  color: #4d555d;
+}
+
+a:hover {
+  color: #f01414;
+}
+
+/* 解决li横艾之间有空白间隙的问题 */
+ul {
+  letter-spacing: -10px;
+}
+
+ul li {
+  letter-spacing: normal;
+}
+
+/* 文字隐藏*/
+.text-hidden {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+/*单行文字省略*/
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.kjx-slider {
+  width: 728px;
+  height: 504px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kjx-slider .kjx-slider-control {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  margin-top: -31px;
+  width: 28px;
+  height: 62px;
+  line-height: 62px;
+  text-align: center;
+  background-color: #000;
+  opacity: .5;
+  color: #fff;
+  font-size: 22px;
+  font-family: simsun;
+}
+
+.kjx-slider .kjx-slider-control.kjx-slider-control-left {
+  left: 0;
+}
+
+.kjx-slider .kjx-slider-control.kjx-slider-control-right {
+  right: 0;
+}
+
+.kjx-slider .kjx-slider-indicator-wrap {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  margin-left: -36px;
+}
+
+.kjx-slider .kjx-slider-indicator-wrap .kjx-slider-indicator {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #313a43;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.kjx-slider .kjx-slider-indicator-wrap .kjx-slider-indicator.kjx-slider-indicator-active {
+  position: relative;
+  top: -2px;
+  background-color: #f7f8f9;
+  border: 2px solid #858b92;
+}
+
+.kjx-slider-fade .kjx-slider-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/*# sourceMappingURL=slider.css.map */

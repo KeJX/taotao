@@ -112,6 +112,14 @@ table {
   left: auto;
 }
 
+.kjx-dropdown .kjx-dropdown-layer .kjx-dropdown-loading {
+  width: 32px;
+  height: 32px;
+  background: url("../../static/img/loading.gif") no-repeat;
+  background-size: contain;
+  margin: 20px;
+}
+
 .kjx-dropdown[class*="-active"] .kjx-dropdown-arrow {
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);

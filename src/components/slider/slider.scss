@@ -1,0 +1,69 @@
+@import "../../assets/scss/reset";
+@import "../../assets/scss/common";
+
+.kjx-slider {
+    width: 728px;
+    height: 504px;
+    position: relative;
+    overflow: hidden;
+
+    .kjx-slider-control {
+        position: absolute;
+        display: inline-block;
+        top: 50%;
+        margin-top: -31px;
+        width: 28px;
+        height: 62px;
+        line-height: 62px;
+        text-align: center;
+        background-color: #000;
+        opacity: .5;
+        color: #fff;
+        font-size: 22px;
+        font-family: simsun;
+
+        &.kjx-slider-control-left {
+            left: 0;
+        }
+
+        &.kjx-slider-control-right {
+            right: 0;
+        }
+
+    }
+
+    .kjx-slider-indicator-wrap {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        margin-left: -36px;
+
+        .kjx-slider-indicator {
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+            background-color: #313a43;
+            margin-right: 12px;
+            cursor: pointer;
+
+            &.kjx-slider-indicator-active {
+                position: relative;
+                top: -2px;
+                background-color: #f7f8f9;
+                border: 2px solid #858b92;
+            }
+        }
+    }
+}
+
+
+.kjx-slider-fade {
+    .kjx-slider-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+}

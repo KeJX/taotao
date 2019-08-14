@@ -1,0 +1,47 @@
+.kjx-search {
+  position: relative;
+  border: 1px solid #cfd2d5;
+}
+
+.kjx-search .kjx-search-inputbox {
+  width: 585px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+  border: none;
+  background-color: #fff;
+  outline: none;
+}
+
+.kjx-search .kjx-search-btn {
+  height: 40px;
+  width: 73px;
+  line-height: 40px;
+  background-color: #07111b;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+}
+
+.kjx-search .kjx-search-layer {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #cfd2d5;
+}
+
+.kjx-search .kjx-search-layer .kjx-search-layer-item {
+  height: 24px;
+  padding: 0 10px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.kjx-search .kjx-search-layer .kjx-search-layer-item:hover {
+  background-color: #f3f5f7;
+}
+/*# sourceMappingURL=search.css.map */

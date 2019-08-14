@@ -14,6 +14,9 @@ import {
   Search
 } from "./components/search/search"
 import {
+  Slider
+} from "./components/slider/slider"
+import {
   ShowHide
 } from "./components/showHide/showHide.js"
 import axios from "axios"
@@ -211,4 +214,14 @@ function createCategoryDetails(layerEl,data){
   layerEl.innerHTML = html
 }
   
+
+// focus -slider
+var focusSlider = new Slider({
+  el:document.querySelector("#carousel-slider"),
+  interval:2000
+})
+
+focusSlider.el.on("kjx-slider-show",function(e){
+  console.log(e.detail)
+})
 }
