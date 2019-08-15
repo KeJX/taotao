@@ -20,6 +20,10 @@ import {
   ShowHide
 } from "./components/showHide/showHide.js"
 import axios from "axios"
+
+import {
+  Tab
+} from "./components/tab/tab"
 window.onload = function () {
   // nav dropdown
   var navDropdownClassList = [".nav-right-my", ".nav-right-favorites", ".nav-right-service"]
@@ -244,6 +248,20 @@ var todaysSlider = new Slider({
     loadingURL:"static/img/today/loading.gif"
   }
 })
-console.log(todaysSlider);
+
+// floor
+
+var F1Tab = new Tab({
+  el:document.querySelector("#floor-1F"),
+  event:"mouseover",
+  activeIndex:0,
+  delay:500,
+  loadingOption:{
+    isLoading:true,
+    loadingURL:"static/img/floor/loading.gif"
+  }
+})
+
+
 }
 

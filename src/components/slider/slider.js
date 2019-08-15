@@ -118,7 +118,6 @@ Slider.prototype._init = function () {
         }
         if (e.target.classList.contains("kjx-slider-indicator")) {
             var index = self._getCorrectIndex(Array.prototype.indexOf.call(self.indicators, e.target))
-            console.log(index);
             if (index === self.currentIndex) return
             self.to(index)
         }
@@ -137,7 +136,6 @@ Slider.prototype._init = function () {
     // send message
     this.items.forEach((item, i) => {
         item.on("show", function (e) {
-            console.log("kjx-slider-" + e.type)
             self.el.trigger("kjx-slider-" + e.type, {
                 showIndex: i,
                 showItem: item
@@ -249,7 +247,6 @@ Slider.prototype._loadingImg = function () {
         })
     }
     self.el.on("kjx-slider-show", loadItem = function (e) {
-        console.log(items);
         if (items[e.detail.showIndex] !== "loaded") {
             var item = self.items[e.detail.showIndex],
                 imgDoms = item.querySelectorAll(".kjx-slider-img")
