@@ -216,14 +216,34 @@ function createCategoryDetails(layerEl,data){
   
 
 // focus -slider
+var focusSliderEl = document.querySelector("#carousel-slider")
+
 var focusSlider = new Slider({
-  el:document.querySelector("#carousel-slider"),
-  interval:0,
+  el:focusSliderEl,
+  interval:3500,
+  indicators:true,
   animateMode:"slide",
-  activeIndex:0
+  activeIndex:0,
+  loadingOption:{
+    loading:true,
+    loadingURL:"static/img/carousel/loading.gif"
+  }
 })
 
-focusSlider.el.on("kjx-slider-show",function(e){
-  console.log(e.detail)
+// todays-slider
+var todaysSliderEl = document.querySelector("#todays-slider")
+
+var todaysSlider = new Slider({
+  el:todaysSliderEl,
+  isIndicator:false,
+  interval:0,
+  animateMode:"fade",
+  activeIndex:0,
+  loadingOption:{
+    loading:true,
+    loadingURL:"static/img/today/loading.gif"
+  }
 })
+console.log(todaysSlider);
 }
+

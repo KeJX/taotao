@@ -2,7 +2,12 @@ export const Slider = function ({
     el,
     animateMode = "fade",
     activeIndex = 0,
-    interval = 0
+    interval = 0,
+    isIndicator = true,
+    loadingOption = {
+        loading: false,
+        loadingURL: ""
+    }
 }) {
     var self = this
     this.el = el
@@ -11,8 +16,11 @@ export const Slider = function ({
     this.currentIndex = this._getCorrectIndex(activeIndex)
     this.animateMode = animateMode
     this.interval = interval
-
-    this.indicators = el.querySelectorAll(".kjx-slider-indicator")
+    this.loadingOption = loadingOption
+    this.isIndicator = isIndicator
+    if (isIndicator) {
+        this.indicators = el.querySelectorAll(".kjx-slider-indicator")
+    }
     this.control = {
         left: el.querySelector(".kjx-slider-control-left"),
         right: el.querySelector(".kjx-slider-control-right")
@@ -31,22 +39,16 @@ export const Slider = function ({
         })
     }
 
-    var itemsShowHide = []
-    this.items.forEach(function (item) {
-        itemsShowHide.push(new ShowHide({
-            el: item,
-            mode: "fade",
-            isInitHide: true
-        }))
-    })
-    this.itemsShowHide = itemsShowHide
+
     this._init()
 
 }
 
 
 import "./slider.scss"
-import {Move} from "../move/move"
+import {
+    Move
+} from "../move/move"
 import {
     ShowHide
 } from "../showHide/showHide"
@@ -54,26 +56,44 @@ var indicatorActiveClass = "kjx-slider-indicator-active"
 Slider.prototype._init = function () {
     var self = this
     // init show
-    self.indicators.forEach((item) => {
-        item.classList.remove(indicatorActiveClass)
-    })
-    self.indicators[self.currentIndex].classList.add(indicatorActiveClass)
+    if (self.isIndicator) {
+        self.indicators.forEach((item) => {
+            item.classList.remove(indicatorActiveClass)
+        })
+        self._activeIndicator(self.currentIndex)
 
+    }
+    if (self.loadingOption.loading) {
+        // 设置 loading 图片
+        self._loadingImg()
+    }
+    self.el.trigger("kjx-slider-show", {
+        showIndex: self.currentIndex,
+        showItem: self.items[self.currentIndex]
+    })
     // to
     if (self.animateMode == "slide") {
         self.el.classList.add("kjx-slider-slide")
-        self.itemsShowHide.forEach((item) =>{ item.show()})
         self.items[self.currentIndex].style.left = 0
         self.slideWidth = this.items[0].offsetWidth
         self.to = self._slide
-        self.moves  = []
-        self.items.forEach((item)=>{
+        self.moves = []
+        self.items.forEach((item) => {
             self.moves.push(new Move({
-                el:item,
-                mode:"dynamic"
+                el: item,
+                mode: "dynamic"
             }))
         })
     } else {
+        var itemsShowHide = []
+        self.items.forEach(function (item) {
+            itemsShowHide.push(new ShowHide({
+                el: item,
+                mode: "fade",
+                isInitHide: true
+            }))
+        })
+        self.itemsShowHide = itemsShowHide
         self.el.classList.add("kjx-slider-fade")
         self.itemsShowHide[self.currentIndex].show()
         self.to = self._fade
@@ -91,14 +111,12 @@ Slider.prototype._init = function () {
 
     self.el.addEventListener("click", function (e) {
         if (e.target === self.control.left) {
-            // length-1 =3
-            self.to(self._getCorrectIndex(self.currentIndex - 1),1)
+            self.to(self._getCorrectIndex(self.currentIndex - 1), 1)
         }
         if (e.target === self.control.right) {
-            self.to((self._getCorrectIndex(self.currentIndex + 1)),-1)
+            self.to((self._getCorrectIndex(self.currentIndex + 1)), -1)
         }
         if (e.target.classList.contains("kjx-slider-indicator")) {
-            console.log(e.target);
             var index = self._getCorrectIndex(Array.prototype.indexOf.call(self.indicators, e.target))
             console.log(index);
             if (index === self.currentIndex) return
@@ -117,14 +135,44 @@ Slider.prototype._init = function () {
     }
 
     // send message
-    this.items.forEach((item) => {
-        item.on("show shown hide hidden", function (e) {
+    this.items.forEach((item, i) => {
+        item.on("show", function (e) {
+            console.log("kjx-slider-" + e.type)
             self.el.trigger("kjx-slider-" + e.type, {
-                showIndex: Array.prototype.indexOf.call(self.items, item),
+                showIndex: i,
                 showItem: item
             })
         })
+        item.on("move moved", function (e) {
+            if (e.type === "move") {
+                if (i === self.currentIndex) {
+                    self.el.trigger("kjx-slider-hide", {
+                        showIndex: i,
+                        showItem: item
+                    })
+                } else {
+                    self.el.trigger("kjx-slider-show", {
+                        showIndex: i,
+                        showItem: item
+                    })
+                }
+            } else {
+                if (i === self.currentIndex) {
+                    self.el.trigger("kjx-slider-shown", {
+                        showIndex: i,
+                        showItem: item
+                    })
+                } else {
+                    self.el.trigger("kjx-slider-hidden", {
+                        showIndex: i,
+                        showItem: item
+                    })
+                }
+            }
+        })
     })
+
+
 }
 
 
@@ -138,28 +186,25 @@ Slider.prototype._fade = function (index) {
     this.itemsShowHide[this.currentIndex].hide()
     this.itemsShowHide[index].show()
 
-    this.indicators[this.currentIndex].classList.remove(indicatorActiveClass)
-    this.indicators[index].classList.add(indicatorActiveClass)
+    this._activeIndicator(index)
 
     this.currentIndex = index
 }
 
-Slider.prototype._slide = function (index,direction) {
-    if(index === this.currentIndex) return 
+Slider.prototype._slide = function (index, direction) {
+    if (index === this.currentIndex) return
     // decide the direction for sliding
-    if(!direction){
+    if (!direction) {
         // click the indicators
-        if(this.currentIndex<index){
+        if (this.currentIndex < index) {
             direction = -1
-        }
-        else if(this.currentIndex>index){
+        } else if (this.currentIndex > index) {
             direction = 1
         }
     }
     // set the origin pos for the slide
-    console.log(-1 *direction* this.slideWidth);
     this.items[index].classList.remove("transition")
-    this.items[index].style.left=(-1 *direction* this.slideWidth) + "px" 
+    this.items[index].style.left = (-1 * direction * this.slideWidth) + "px"
     // current  slide  slides out , the new slide slides into
     setTimeout(() => {
         this.items[index].classList.add("transition")
@@ -168,20 +213,66 @@ Slider.prototype._slide = function (index,direction) {
         this.currentIndex = index
 
     }, 20);
-    
 
-    this.indicators[this.currentIndex].classList.remove(indicatorActiveClass)
-    this.indicators[index].classList.add(indicatorActiveClass)
+
+    this._activeIndicator(index)
+
 }
 
 // 自动切换
 Slider.prototype.auto = function () {
     var self = this
     this.intervalId = setInterval(function () {
-        self.to(self._getCorrectIndex(self.currentIndex + 1))
+        self.to(self._getCorrectIndex(self.currentIndex + 1), -1)
     }, self.interval)
 }
 
 Slider.prototype.pause = function () {
     clearInterval(this.intervalId)
+}
+
+// 设置 按需加载 
+Slider.prototype._loadingImg = function () {
+    var self = this
+    // 初始化loading img
+    var items = {},
+        loadedItemNum = 0,
+        totalItemNum = self.items.length,
+        loadItem,
+        loadingImg = new Image()
+
+    loadingImg.src = self.loadingOption.loadingURL
+    self.imgs = self.el.querySelectorAll(".kjx-slider-img")
+    loadingImg.onload = function () {
+        self.imgs.forEach((item) => {
+            item.setAttribute("src", loadingImg.src)
+        })
+    }
+    self.el.on("kjx-slider-show", loadItem = function (e) {
+        console.log(items);
+        if (items[e.detail.showIndex] !== "loaded") {
+            var item = self.items[e.detail.showIndex],
+                imgDoms = item.querySelectorAll(".kjx-slider-img")
+            imgDoms.forEach((item) => {
+                var img = new Image()
+                img.src = item.dataset.loadingImg
+                img.onload = function () {
+                    setTimeout(() => {
+                        item.setAttribute("src", img.src)
+                    }, 1000);
+                }
+                
+            })
+            items[e.detail.showIndex] = "loaded"
+           loadedItemNum++
+           if (loadedItemNum == totalItemNum) {
+               self.el.removeEventListener("kjx-slider-show", loadItem)
+           }
+        }
+    })
+}
+Slider.prototype._activeIndicator = function (index) {
+    if (!this.isIndicator) return
+    this.indicators[this.currentIndex].classList.remove(indicatorActiveClass)
+    this.indicators[index].classList.add(indicatorActiveClass)
 }

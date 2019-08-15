@@ -450,7 +450,9 @@
         }
     }
 
-
+    .carousel{
+        margin-left: 8px;
+    }
     .focus-sidebar{
         width:249px;
         .focus-news{
@@ -509,4 +511,17 @@
             background-size: contain;
         }
     }
+}
+
+
+.todays{
+    .kjx-slider{
+        width:100%;
+        height:158px;
+        .kjx-slider-img{
+            width:240px;
+        }
+    }
+
+
 }
