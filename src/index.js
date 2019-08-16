@@ -24,6 +24,13 @@ import axios from "axios"
 import {
   Tab
 } from "./components/tab/tab"
+
+
+
+import {
+  floorData
+} from "static/floor/floorData.js"
+
 window.onload = function () {
   // nav dropdown
   var navDropdownClassList = [".nav-right-my", ".nav-right-favorites", ".nav-right-service"]
@@ -124,17 +131,17 @@ window.onload = function () {
       data = e.detail,
       cartItemNumDom = cartDropdown.el.querySelector(".cart-num"),
       cartItemNum = 0
-      
+
     if (data.length == 0) {
       // 显示购物车 空
-      html+=`<div class="cart-empty">
+      html += `<div class="cart-empty">
         <i class="iconfont icon-gouwuchetianjia"></i>
         <div class="cart-empty-text">
           购物车里还没有商品</br>
           赶紧去选购吧!
         </div>
       </div>`
-      
+
     } else {
       // 获取到数据后组成html
       html += `<div class="cart-layer-title">最近加入的商品</div>`
@@ -172,96 +179,224 @@ window.onload = function () {
     }
   })
 
-// category dropdowns
+  // category dropdowns
   var categoryDropdownEls = document.querySelectorAll(".kjx-dropdown.focus-category-dropdown")
   var categoryDropdowns = []
-  categoryDropdownEls.forEach((item,i) => {
+  categoryDropdownEls.forEach((item, i) => {
     var tempDropdown = new Dropdown({
       el: item,
       animateMode: "fade",
-      loadingOptions:{
-        isLoading:true,
-        loadingPath:"static/category/category-detail-"+(i+1)+".json"
+      loadingOptions: {
+        isLoading: true,
+        loadingPath: "static/category/category-detail-" + (i + 1) + ".json"
         // "static/category/category-detail-"+(i+1)+".json"
       }
     })
 
     categoryDropdowns.push(tempDropdown)
   })
-  categoryDropdowns.forEach(function(item){
-    item.el.addEventListener("kjx-dropdown-getData",function(e){
+  categoryDropdowns.forEach(function (item) {
+    item.el.addEventListener("kjx-dropdown-getData", function (e) {
       var data = e.detail,
-          layer = item.layer
+        layer = item.layer
 
       setTimeout(() => {
-        createCategoryDetails(layer,data)
+        createCategoryDetails(layer, data)
       }, 500);
     })
   })
-  
-function createCategoryDetails(layerEl,data){
-  var html=""
-  for(var i =0;i<data.length;i++){
-    html+=
-    `<dl class="category-details cf">
+
+  function createCategoryDetails(layerEl, data) {
+    var html = ""
+    for (var i = 0; i < data.length; i++) {
+      html +=
+        `<dl class="category-details cf">
       <dt class="category-details-title fl">
         <a href="###" class="category-details-title-link">${data[i].title}</a>
       </dt>
     <dd class="category-details-item fl">`
-    for(var j =0;j<data[i].items.length;j++){
-      html+=
-      `<a href="###" class="link">${data[i].items[j]}</a>`
+      for (var j = 0; j < data[i].items.length; j++) {
+        html +=
+          `<a href="###" class="link">${data[i].items[j]}</a>`
+      }
+      html +=
+        `</dd></dl>`
     }
-    html+=
-    `</dd></dl>`
+    layerEl.innerHTML = html
   }
-  layerEl.innerHTML = html
-}
+
+
+  // focus -slider
+  var focusSliderEl = document.querySelector("#carousel-slider")
+
+  var focusSlider = new Slider({
+    el: focusSliderEl,
+    interval: 3500,
+    indicators: true,
+    animateMode: "slide",
+    activeIndex: 0,
+    loadingOption: {
+      loading: true,
+      loadingURL: "static/img/carousel/loading.gif"
+    }
+  })
+
+  // todays-slider
+  var todaysSliderEl = document.querySelector("#todays-slider")
+
+  var todaysSlider = new Slider({
+    el: todaysSliderEl,
+    isIndicator: false,
+    interval: 0,
+    animateMode: "fade",
+    activeIndex: 0,
+    loadingOption: {
+      loading: true,
+      loadingURL: "static/img/today/loading.gif"
+    }
+  })
+
+  // floor
+
+  // var floorList = document.querySelectorAll(".floor")
+  // floorList.forEach(item=>{
+  //   var tab = new Tab({
+  //     el:item,
+  //     event:"mouseover",
+  //   activeIndex:0,
+  //   delay:500,
+  //   loadingOption:{
+  //     isLoading:true,
+  //     loadingURL:"static/img/floor/loading.gif"
+  //   }
+  //   })
+  //   console.log(tab);
+  // })
+
+
+
+
+  // floor
+  function isVisible(el) {
+    return (window.innerHeight + document.documentElement.scrollTop) > el.offsetTop && document.documentElement.scrollTop < el.offsetTop + el.offsetHeight
+  }
+
+
+
+  var floors = document.querySelectorAll(".floor")
+
+  function timeToShow(floor,i) {
+    document.documentElement.trigger("floor-show",{
+      floorItem: floor,
+      floorIndex: i
+    })
+  
+  }
+
   
 
-// focus -slider
-var focusSliderEl = document.querySelector("#carousel-slider")
+  function buildFloor(floorData) {
+    var html = ``
+    html += `<div class="container">`
+    html += buildFloorHead(floorData)
+    html += buildFloorBody(floorData)
+    html += `</div>`
 
-var focusSlider = new Slider({
-  el:focusSliderEl,
-  interval:3500,
-  indicators:true,
-  animateMode:"slide",
-  activeIndex:0,
-  loadingOption:{
-    loading:true,
-    loadingURL:"static/img/carousel/loading.gif"
+    return html
   }
-})
 
-// todays-slider
-var todaysSliderEl = document.querySelector("#todays-slider")
+  function buildFloorHead(floorData){
+    var html =``
+    html +=`<div class="floor-head">
+                <h2 class="floor-title fl"><span class="floor-title-num">${floorData.num}F</span><span
+                class="floor-title-text">${floorData.text}</span></h2>
+                <ul class="kjx-tab-item-wrap fr">
+    `
 
-var todaysSlider = new Slider({
-  el:todaysSliderEl,
-  isIndicator:false,
-  interval:0,
-  animateMode:"fade",
-  activeIndex:0,
-  loadingOption:{
-    loading:true,
-    loadingURL:"static/img/today/loading.gif"
+    for(var i = 0 ; i<floorData.tabs.length;i++){
+      html+=`<li class="fl"><a href="javascript:;" class="kjx-tab-item ">${floorData.tabs[i]}</a></li>`
+      if(i!==floorData.tabs.length-1){
+        html+=`<li class="floor-divider fl text-hidden">分隔线</li>`
+      }
+    }
+    html+=`</ul>`
+    html+=`</div>`
+    return html
   }
-})
 
-// floor
+  function buildFloorBody(floorData){
+    var html = `<div class="floor-body">`
+    for(var i =0;i<floorData.items.length;i++){
+      html+=`<ul class="kjx-tab-panel">`
 
-var F1Tab = new Tab({
-  el:document.querySelector("#floor-1F"),
-  event:"mouseover",
-  activeIndex:0,
-  delay:500,
-  loadingOption:{
-    isLoading:true,
-    loadingURL:"static/img/floor/loading.gif"
+      for(var j =0;j<floorData.items[i].length;j++){
+        html+=`<li class="floor-item fl">
+        <p class="floor-item-pic"><a href="###" target="_blank"><img src="img/floor/loading.gif"
+                    class="floor-img kjx-tab-panel-img" data-loading-img="static/img/floor/${floorData.num}/${i+1}/${j+1}.png"
+                    alt="" /></a></p>
+        <p class="floor-item-name"><a href="###" target="_blank" class="link">${floorData.items[i][j].name}</a></p>
+        <p class="floor-item-price">￥${floorData.items[i][j].price}</p>
+    </li>`
+      }
+      html+=`</ul>`
+    }
+    html+=`</div>`
+    return html
   }
-})
 
 
+  function lazyLoadFloor(floors){
+    var self = this
+    // 初始化loading img
+    var items = {},
+        loadedItemNum = 0,
+        totalItemNum = floors.length,
+        loadItem
+    document.documentElement.on("floor-show", loadItem = function (e) {
+        if (items[e.detail.floorIndex] !== "loaded") {
+          console.log(e.detail);
+            var html =buildFloor(floorData[e.detail.floorIndex]),
+                el = e.detail.floorItem
+                setTimeout(() => {
+                    el.innerHTML = html
+                    console.log(el);
+                    new Tab({el:el,
+                      event:"mouseover",
+                    activeIndex:0,
+                    delay:500,
+                    loadingOption:{
+                      isLoading:true,
+                      loadingURL:"static/img/floor/loading.gif"
+                    }})
+                }, 1000);
+            items[e.detail.floorIndex] = "loaded"
+           loadedItemNum++
+           if (loadedItemNum == totalItemNum) {
+               self.el.removeEventListener("floor-show", loadItem)
+           }
+        }
+    })
+  }
+
+
+  var floorTimer
+  window.onscroll = viewChangeHandle
+  window.onresize = viewChangeHandle
+  function viewChangeHandle(){
+
+      // 节流
+      clearTimeout(floorTimer)
+      floorTimer = setTimeout(()=>{
+        console.log(1)
+        floors.forEach((item,i)=>{
+          if(isVisible(item)){
+            timeToShow(item,i)
+          }
+        })
+      },1000)
+    }
+  
+
+
+  lazyLoadFloor(floors)
 }
-
