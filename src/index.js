@@ -256,147 +256,222 @@ window.onload = function () {
     }
   })
 
-  // floor
 
-  // var floorList = document.querySelectorAll(".floor")
-  // floorList.forEach(item=>{
-  //   var tab = new Tab({
-  //     el:item,
-  //     event:"mouseover",
-  //   activeIndex:0,
-  //   delay:500,
-  //   loadingOption:{
-  //     isLoading:true,
-  //     loadingURL:"static/img/floor/loading.gif"
-  //   }
-  //   })
-  //   console.log(tab);
-  // })
-
-
-
-
-  // floor
-  function isVisible(el) {
+  // ------------------------
+  function isInViewport(el) {
     return (window.innerHeight + document.documentElement.scrollTop) > el.offsetTop && document.documentElement.scrollTop < el.offsetTop + el.offsetHeight
   }
+  function ScrollTop(number = 0, time) {
+    if (!time) {
+        document.body.scrollTop = document.documentElement.scrollTop = number;
+        return number;
+    }
+    const spacingTime = 20; // 设置循环的间隔时间  值越小消耗性能越高
+    let spacingInex = time / spacingTime; // 计算循环的次数
+    let nowTop = document.body.scrollTop + document.documentElement.scrollTop; // 获取当前滚动条位置
+    let everTop = (number - nowTop) / spacingInex; // 计算每次滑动的距离
+    let scrollTimer = setInterval(() => {
+        if (spacingInex > 0) {
+            spacingInex--;
+            ScrollTop(nowTop += everTop);
+        } else {
+            clearInterval(scrollTimer); // 清除计时器
+            document.documentElement.trigger("scroll-end")
+        }
+    }, spacingTime);
+}
+// ---------------------------
+  // floor 业务
+  // 避免暴露全局
+  var floor = {}
+  floor.floorData = floorData
+  
+
+  floor.floors = document.querySelectorAll(".floor")
 
 
 
-  var floors = document.querySelectorAll(".floor")
-
-  function timeToShow(floor,i) {
-    document.documentElement.trigger("floor-show",{
+  floor.timeToShow = function (floor, i) {
+    document.documentElement.trigger("floor-show", {
       floorItem: floor,
       floorIndex: i
     })
-  
+
   }
 
-  
 
-  function buildFloor(floorData) {
+
+  floor.buildFloor = function (floorData) {
     var html = ``
     html += `<div class="container">`
-    html += buildFloorHead(floorData)
-    html += buildFloorBody(floorData)
+    html += floor.buildFloorHead(floorData)
+    html += floor.buildFloorBody(floorData)
     html += `</div>`
 
     return html
   }
+  floor.buildFloorHead = function (floorData) {
+    var html = ``
+    html += `<div class="floor-head">
+                  <h2 class="floor-title fl"><span class="floor-title-num">${floorData.num}F</span><span
+                  class="floor-title-text">${floorData.text}</span></h2>
+                  <ul class="kjx-tab-item-wrap fr">
+      `
 
-  function buildFloorHead(floorData){
-    var html =``
-    html +=`<div class="floor-head">
-                <h2 class="floor-title fl"><span class="floor-title-num">${floorData.num}F</span><span
-                class="floor-title-text">${floorData.text}</span></h2>
-                <ul class="kjx-tab-item-wrap fr">
-    `
-
-    for(var i = 0 ; i<floorData.tabs.length;i++){
-      html+=`<li class="fl"><a href="javascript:;" class="kjx-tab-item ">${floorData.tabs[i]}</a></li>`
-      if(i!==floorData.tabs.length-1){
-        html+=`<li class="floor-divider fl text-hidden">分隔线</li>`
+    for (var i = 0; i < floorData.tabs.length; i++) {
+      html += `<li class="fl"><a href="javascript:;" class="kjx-tab-item ">${floorData.tabs[i]}</a></li>`
+      if (i !== floorData.tabs.length - 1) {
+        html += `<li class="floor-divider fl text-hidden">分隔线</li>`
       }
     }
-    html+=`</ul>`
-    html+=`</div>`
+    html += `</ul>`
+    html += `</div>`
     return html
   }
 
-  function buildFloorBody(floorData){
+  floor.buildFloorBody = function(floorData) {
     var html = `<div class="floor-body">`
-    for(var i =0;i<floorData.items.length;i++){
-      html+=`<ul class="kjx-tab-panel">`
+    for (var i = 0; i < floorData.items.length; i++) {
+      html += `<ul class="kjx-tab-panel">`
 
-      for(var j =0;j<floorData.items[i].length;j++){
-        html+=`<li class="floor-item fl">
-        <p class="floor-item-pic"><a href="###" target="_blank"><img src="img/floor/loading.gif"
-                    class="floor-img kjx-tab-panel-img" data-loading-img="static/img/floor/${floorData.num}/${i+1}/${j+1}.png"
-                    alt="" /></a></p>
-        <p class="floor-item-name"><a href="###" target="_blank" class="link">${floorData.items[i][j].name}</a></p>
-        <p class="floor-item-price">￥${floorData.items[i][j].price}</p>
-    </li>`
+      for (var j = 0; j < floorData.items[i].length; j++) {
+        html += `<li class="floor-item fl">
+          <p class="floor-item-pic"><a href="###" target="_blank"><img src="img/floor/loading.gif"
+                      class="floor-img kjx-tab-panel-img" data-loading-img="static/img/floor/${floorData.num}/${i+1}/${j+1}.png"
+                      alt="" /></a></p>
+          <p class="floor-item-name"><a href="###" target="_blank" class="link">${floorData.items[i][j].name}</a></p>
+          <p class="floor-item-price">￥${floorData.items[i][j].price}</p>
+      </li>`
       }
-      html+=`</ul>`
+      html += `</ul>`
     }
-    html+=`</div>`
+    html += `</div>`
     return html
   }
 
 
-  function lazyLoadFloor(floors){
+  floor.lazyLoadFloor = function () {
     var self = this
     // 初始化loading img
     var items = {},
-        loadedItemNum = 0,
-        totalItemNum = floors.length,
-        loadItem
+      loadedItemNum = 0,
+      totalItemNum = self.floors.length,
+      loadItem
     document.documentElement.on("floor-show", loadItem = function (e) {
-        if (items[e.detail.floorIndex] !== "loaded") {
-          console.log(e.detail);
-            var html =buildFloor(floorData[e.detail.floorIndex]),
-                el = e.detail.floorItem
-                setTimeout(() => {
-                    el.innerHTML = html
-                    console.log(el);
-                    new Tab({el:el,
-                      event:"mouseover",
-                    activeIndex:0,
-                    delay:500,
-                    loadingOption:{
-                      isLoading:true,
-                      loadingURL:"static/img/floor/loading.gif"
-                    }})
-                }, 1000);
-            items[e.detail.floorIndex] = "loaded"
-           loadedItemNum++
-           if (loadedItemNum == totalItemNum) {
-               self.el.removeEventListener("floor-show", loadItem)
-           }
+      if (items[e.detail.floorIndex] !== "loaded") {
+        var html = self.buildFloor(self.floorData[e.detail.floorIndex]),
+          el = e.detail.floorItem
+        setTimeout(() => {
+          el.innerHTML = html
+          new Tab({
+            el: el,
+            event: "mouseover",
+            activeIndex: 0,
+            delay: 500,
+            loadingOption: {
+              isLoading: true,
+              loadingURL: "static/img/floor/loading.gif"
+            }
+          })
+        }, 1000);
+        items[e.detail.floorIndex] = "loaded"
+        loadedItemNum++
+        if (loadedItemNum == totalItemNum) {
+          document.documentElement.removeEventListener("floor-show", loadItem)
         }
+      }
     })
   }
+  floor.viewChangeHandle = function() {
+    var self = floor
+
+  // 防抖
+  clearTimeout(self.floorTimer)
+   setTimeout(() => {
+    self.floors.forEach((item, i) => {
+      if (isInViewport(item)) {
+        floor.timeToShow(item, i)
+      }
+    })
+  }, 300)
+}
 
 
-  var floorTimer
-  window.onscroll = viewChangeHandle
-  window.onresize = viewChangeHandle
-  function viewChangeHandle(){
+window.addEventListener("scroll",floor.viewChangeHandle) 
+window.addEventListener("resize",floor.viewChangeHandle) 
 
-      // 节流
-      clearTimeout(floorTimer)
-      floorTimer = setTimeout(()=>{
-        console.log(1)
-        floors.forEach((item,i)=>{
-          if(isVisible(item)){
-            timeToShow(item,i)
-          }
-        })
-      },1000)
+floor.lazyLoadFloor()
+
+
+
+
+
+// elevator 也隶属于floor
+floor.elevator = document.querySelector(".elevator")
+floor.elevatorShowHide = new ShowHide({
+  el: floor.elevator,
+  mode: "fade",
+  isInitHide: true
+})
+
+
+floor.whichFloor = function(){
+  var num = -1 
+  floor.floors.forEach(function(item,i){
+    if((document.documentElement.scrollTop + item.offsetHeight/2)>item.offsetTop){
+      num = i 
+      return false
     }
+  })
+  console.log(num);
+
+  return num
+}
+
+floor.elevator.items = floor.elevator.querySelectorAll(".elevator-item")
+floor.setElevator = function(){
+  var num = floor.whichFloor()
+  if(num === -1){
+    floor.elevatorShowHide.hide()
+  }else{
+    floor.elevatorShowHide.show()
+    floor.elevator.items.forEach((item)=>{
+      item.classList.remove("elevator-active")
+    })
+    floor.elevator.items[num].classList.add("elevator-active")
+  }
+}
+floor.elevatorHandle = function(){
   
+    clearTimeout(floor.elevatorTimer)
+    floor.elevatorTimer = setTimeout(
+      floor.setElevator,
+      250
+    )
+}
 
+window.addEventListener("scroll",floor.elevatorHandle
+)
 
-  lazyLoadFloor(floors)
+floor.elevator.on("click",function(e){
+  window.removeEventListener("scroll",floor.elevatorHandle)
+     var clickItem = e.path.filter((item)=>{
+        return item.classList&&item.classList.contains("elevator-item")
+     })
+     clickItem = clickItem[0]
+     floor.elevator.items.forEach((item)=>{
+      item.classList.remove("elevator-active")
+    })
+    clickItem.classList.add("elevator-active")
+    var i = Array.prototype.indexOf.call(floor.elevator.items,clickItem)
+    console.log(i);
+    
+      ScrollTop(floor.floors[i].offsetTop ,200)
+    document.documentElement.on("scroll-end",function(){
+      console.log(1);
+    window.addEventListener("scroll",floor.elevatorHandle)
+
+    })
+})
+
 }

@@ -8,9 +8,6 @@
     width: 1200px;
     margin: 0 auto;
 }
-
-
-
 // 防止遮挡
 .header {
     width: 100%;
@@ -32,7 +29,10 @@
 .header {
     background-color: #F3F5F7;
     height: 169px;
-
+    .container{
+        position: relative;
+        z-index: 3;
+    }
     // nav
     .nav-header {
 
@@ -321,7 +321,7 @@
     margin-bottom: 8px;
     background-color: #07111b;
     width: 100%;
-
+   
     .link {
         color: #fff;
         line-height: 48px;
@@ -340,6 +340,10 @@
 
 
 .focus {
+    .container{
+        position:relative;
+    z-index: 1;
+    }
     width: 100%;
     height: 504px;
     margin-bottom: 8px;
@@ -515,6 +519,10 @@
 
 
 .todays{
+        .container{
+            position: relative;
+    z-index: 1;
+        }
     margin-bottom: 10px;
     .kjx-slider{
         width:100%;
@@ -528,7 +536,12 @@
 .floor{
     height: 532px;
     margin-bottom: 10px;
+    
     // background-color: #999999;
+    .container{
+        position: relative;
+        z-index: 1;
+    }
       .floor-head{
           height:68px;
           border-bottom: 1px solid #f01414;
@@ -612,5 +625,47 @@
            margin:22px 16px 0 0 ; 
         }
          
+    }
+}
+
+
+.elevator{
+    position: fixed;
+    left: 20px;
+    top:50%;
+    margin-top: -90px;
+    left:50%;
+    margin-left: -640px;
+
+    .container{
+        display: inline-block;
+        position: relative;
+    }
+    .elevator-item{
+        display: block;
+        width:24px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        color:#4d555d;
+        border-top: 1px solid #d9dde1;
+        &:hover,
+        &.elevator-active{
+            color:#f01414;
+            .elevator-num{
+                display: none;
+            }
+            .elevator-text{
+                display: block;
+            }
+        }
+
+        .elevator-num{
+
+        }
+        .elevator-text{
+            display:none;
+        }
+
     }
 }
