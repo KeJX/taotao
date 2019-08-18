@@ -33,7 +33,7 @@ import {
 
 window.onload = function () {
   // nav dropdown
-  var navDropdownClassList = [".nav-right-my", ".nav-right-favorites", ".nav-right-service"]
+  var navDropdownClassList = [".nav-right-my", ".nav-right-favorites",".nav-right-sellercenter", ".nav-right-service"]
   navDropdownClassList.forEach(function (item) {
     new Dropdown({
       el: document.querySelector(".kjx-dropdown.nav-right-item" + item)
@@ -41,31 +41,31 @@ window.onload = function () {
   })
 
   // nav dropdown 按需加载的那一个 
-  var sellercenterDropdown = new Dropdown({
-    el: document.querySelector(".kjx-dropdown.nav-right-item.nav-right-sellercenter"),
-    loadingOptions: {
-      isLoading: true,
-      loadingPath: "static/header/data.json"
-    },
+  // var sellercenterDropdown = new Dropdown({
+  //   el: document.querySelector(".kjx-dropdown.nav-right-item.nav-right-sellercenter"),
+  //   loadingOptions: {
+  //     isLoading: true,
+  //     loadingPath: "static/header/data.json"
+  //   },
 
-  })
+  // })
 
-  sellercenterDropdown.el.addEventListener("kjx-dropdown-getData", function (e) {
-    var self = sellercenterDropdown,
-      html = ""
-    e.detail.forEach(function (item) {
-      html += `<li><a href="${item.href}" class="menu-item">${item.content}</a></li>`
-    })
-    setTimeout(() => {
-      if (html) {
-        self.layer.innerHTML = html
-      }
-      // 更新宽度  否则宽度有bug
-      // todo:ShowHide模块可以新增方法update来调用
-      self.layer.style = ""
-      self.layer.style.width = self.layer.offsetWidth + "px"
-    }, 500);
-  })
+  // sellercenterDropdown.el.addEventListener("kjx-dropdown-getData", function (e) {
+  //   var self = sellercenterDropdown,
+  //     html = ""
+  //   e.detail.forEach(function (item) {
+  //     html += `<li><a href="${item.href}" class="menu-item">${item.content}</a></li>`
+  //   })
+  //   setTimeout(() => {
+  //     if (html) {
+  //       self.layer.innerHTML = html
+  //     }
+  //     // 更新宽度  否则宽度有bug
+  //     // todo:ShowHide模块可以新增方法update来调用
+  //     self.layer.style = ""
+  //     self.layer.style.width = self.layer.offsetWidth + "px"
+  //   }, 500);
+  // })
 
 
   // header-search
@@ -258,8 +258,11 @@ window.onload = function () {
 
 
   // ------------------------
+  function getScrollTop(){
+    return document.body.scrollTop || document.documentElement.scrollTop
+  }
   function isInViewport(el) {
-    return (window.innerHeight + document.documentElement.scrollTop) > el.offsetTop && document.documentElement.scrollTop < el.offsetTop + el.offsetHeight
+    return (window.innerHeight + getScrollTop()) > el.offsetTop && document.documentElement.scrollTop < el.offsetTop + el.offsetHeight
   }
   function ScrollTop(number = 0, time) {
     if (!time) {
@@ -418,17 +421,17 @@ floor.elevatorShowHide = new ShowHide({
 floor.whichFloor = function(){
   var num = -1 
   floor.floors.forEach(function(item,i){
-    if((document.documentElement.scrollTop + item.offsetHeight/2)>item.offsetTop){
+    if((getScrollTop() + item.offsetHeight/2)>item.offsetTop){
       num = i 
       return false
     }
   })
-  console.log(num);
 
   return num
 }
 
 floor.elevator.items = floor.elevator.querySelectorAll(".elevator-item")
+floor.elevator.itemsText = floor.elevator.querySelectorAll(".elevator-text")
 floor.setElevator = function(){
   var num = floor.whichFloor()
   if(num === -1){
@@ -456,19 +459,18 @@ window.addEventListener("scroll",floor.elevatorHandle
 floor.elevator.on("click",function(e){
    // 防止因为滚动事件导致elevator的显示冲突(判定点位不一样)
   window.removeEventListener("scroll",floor.elevatorHandle)
-     var clickItem = e.path.filter((item)=>{
-        return item.classList&&item.classList.contains("elevator-item")
-     })
-     clickItem = clickItem[0]
+    if(e.target.classList.contains("elevator-text")){
+      var i = Array.prototype.indexOf.call(floor.elevator.itemsText,e.target)
      floor.elevator.items.forEach((item)=>{
       item.classList.remove("elevator-active")
     })
-    clickItem.classList.add("elevator-active")
-    var i = Array.prototype.indexOf.call(floor.elevator.items,clickItem)
+    floor.elevator.items[i].classList.add("elevator-active")
      ScrollTop(floor.floors[i].offsetTop ,200)
     document.documentElement.on("scroll-end",function(){
     window.addEventListener("scroll",floor.elevatorHandle)
     })
+    }
+     
 })
 
 

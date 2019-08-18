@@ -3,14 +3,13 @@
 @import "base";
 @import "iconfont";
 
-
 .container {
     width: 1200px;
     margin: 0 auto;
 }
 // 防止遮挡
 .header {
-    width: 100%;
+    // width: 100%;
 
     .nav-header {
         .nav-right-container {
@@ -29,7 +28,8 @@
 .header {
     background-color: #F3F5F7;
     height: 169px;
-
+    width:100%;
+    min-width:1300px;
     // nav
     .nav-header {
 
@@ -317,7 +317,7 @@
     height: 48px;
     margin-bottom: 8px;
     background-color: #07111b;
-    width: 100%;
+    min-width:1300px;
    
     .link {
         color: #fff;
