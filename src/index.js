@@ -454,7 +454,6 @@ window.addEventListener("scroll",floor.elevatorHandle
 )
 
 floor.elevator.on("click",function(e){
-   // 防止因为滚动事件导致elevator的显示冲突(判定点位不一样)
   window.removeEventListener("scroll",floor.elevatorHandle)
      var clickItem = e.path.filter((item)=>{
         return item.classList&&item.classList.contains("elevator-item")
@@ -465,16 +464,14 @@ floor.elevator.on("click",function(e){
     })
     clickItem.classList.add("elevator-active")
     var i = Array.prototype.indexOf.call(floor.elevator.items,clickItem)
-     ScrollTop(floor.floors[i].offsetTop ,200)
+    console.log(i);
+    
+      ScrollTop(floor.floors[i].offsetTop ,200)
     document.documentElement.on("scroll-end",function(){
+      console.log(1);
     window.addEventListener("scroll",floor.elevatorHandle)
+
     })
 })
 
-
-
-// 回到顶部
-var backToTop = document.querySelector("#backToTop")
-backToTop.addEventListener("click",()=>{
-  ScrollTop(0,200)})
 }
