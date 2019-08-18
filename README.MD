@@ -29,6 +29,7 @@
 + dropdown下拉组件（可按需加载。顶部dropdown，购物车dropdown，菜单导航dropdown）
 + slider幻灯片组件（可按需加载，实现无缝切换，自动切换。focus区域主slider，今日推荐slider）
 + Tab选项卡组件（可按需加载。floor楼层选项卡）
++ Search搜索组件（主搜索Search，可以自己设置请求的jsonp地址，自定义下拉显示内容，本搜索框用的是淘宝的服务，点击可以到达淘宝搜索页）
 + ShowHide动画组件(可以实现静默，渐变，左右展开，上下展开的显示隐藏的组件，项目中所有的显示隐藏都是由其完成的)
 + Move滑动组件（位置滑动组件，主要为slide服务）
 
