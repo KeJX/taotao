@@ -29,10 +29,7 @@
 .header {
     background-color: #F3F5F7;
     height: 169px;
-    .container{
-        position: relative;
-        z-index: 3;
-    }
+
     // nav
     .nav-header {
 
@@ -195,7 +192,7 @@
                     height: 0px;
                     bottom: -2px;
                     background-color: #fff;
-                    z-index: 2;
+                    z-index: 11;
                     border: none;
                     box-shadow: none;
                 }
@@ -204,7 +201,7 @@
                     width: 260px;
                     box-shadow: 0 0 5px #969090;
                     background-color: #fff;
-                    z-index: 1;
+                    z-index: 10;
                     padding: 20px;
                     
                     .cart-empty{
@@ -668,4 +665,89 @@
         }
 
     }
+}
+
+
+
+.helper-wrap{
+    .container{
+    height:90px;
+    border-top: 1px solid #d9dde1;
+    padding: 26px 24px;
+    display:flex;
+    justify-content: space-between;
+    }
+    
+    .helper{
+        font-size: 16px;
+        line-height: 36px;
+        max-width:270px;
+    }
+    .helper-content{
+        font-size: 12px;
+        line-height: 24px;
+        .helper-item{
+            color:#93999f;
+            display:inline-block;
+            margin-right: 24px;
+            white-space:nowrap;
+        }
+    }
+}
+
+.footer{
+    background-color: #f3f5f7;
+    height:50px;
+    text-align: center;
+    padding:18px 0 34px 0;
+    .footer-link-wrap{
+        .footer-link{
+            display:inline-block;
+            width:56px;
+            line-height: 40px;
+        }
+    }
+}
+
+
+.toolbar{
+    position: fixed;
+    z-index: 2;
+    right: 0;
+    top:50%;
+    margin-top:-102px;
+    .toolbar-item{
+        position: relative;
+        display:block;
+        width:40px;
+        height:40px;
+        line-height: 40px;
+        text-align: center;
+        color:#fff;
+        margin-bottom: 1px;
+        .toolbar-icon{
+            z-index: 2;
+            position: relative;
+            display: block;
+            background-color: #b7bbbf;
+        }
+        .toolbar-text{
+            position:absolute;
+            left: 0;
+            top: 0;
+            width:62px;
+            height:40px;
+        }
+
+        &:hover{
+            .toolbar-icon{
+                background-color: #71777d;
+            }
+            .toolbar-text{
+                background-color: #71777d;
+                left:-62px;
+            }
+        }
+    }
+    
 }
