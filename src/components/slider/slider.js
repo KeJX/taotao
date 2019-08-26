@@ -254,9 +254,9 @@ Slider.prototype._loadingImg = function () {
                 var img = new Image()
                 img.src = item.dataset.loadingImg
                 img.onload = function () {
-                    setTimeout(() => {
+                   
                         item.setAttribute("src", img.src)
-                    }, 1000);
+                    
                 }
                 
             })

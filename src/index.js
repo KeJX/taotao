@@ -172,10 +172,10 @@ window.onload = function () {
 
 
     if (html) {
-      setTimeout(() => {
+      
         cartItemNumDom.innerHTML = cartItemNum
         self.layer.innerHTML = html
-      }, 1000);
+   
     }
   })
 
@@ -200,9 +200,9 @@ window.onload = function () {
       var data = e.detail,
         layer = item.layer
 
-      setTimeout(() => {
+      
         createCategoryDetails(layer, data)
-      }, 500);
+     
     })
   })
 
@@ -364,7 +364,7 @@ window.onload = function () {
       if (items[e.detail.floorIndex] !== "loaded") {
         var html = self.buildFloor(self.floorData[e.detail.floorIndex]),
           el = e.detail.floorItem
-        setTimeout(() => {
+        
           el.innerHTML = html
           new Tab({
             el: el,
@@ -376,7 +376,7 @@ window.onload = function () {
               loadingURL: "static/img/floor/loading.gif"
             }
           })
-        }, 1000);
+       
         items[e.detail.floorIndex] = "loaded"
         loadedItemNum++
         if (loadedItemNum == totalItemNum) {
